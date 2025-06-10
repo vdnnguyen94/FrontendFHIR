@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# FrontendFHIR: MasterEHR User Interface
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository contains the official frontend for the MasterEHR project. It is a modern, responsive single-page application (SPA) built with React.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🎯 Purpose and Architecture
 
-### `npm start`
+The primary purpose of this application is to provide a clean, simple, and intuitive user interface for interacting with the complex healthcare data ecosystem simulated by the MasterEHR project.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This frontend is designed to be a "thin client." It contains **no complex business logic** and **no direct knowledge of the HL7 FHIR standard**. Its sole responsibility is to display data and capture user input.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Interaction with Other Applications
 
-### `npm test`
+This application does **not** connect directly to FHIR servers, databases, or other healthcare systems. It exclusively communicates with a single, dedicated backend service: the `BackendFHIR` application.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This "Backend-for-Frontend" (BFF) architecture is a deliberate design choice that provides:
+1.  **Security:** The frontend never holds credentials or has direct access to sensitive data systems.
+2.  **Simplicity:** The frontend makes simple REST API calls (e.g., `POST /api/patients/transfer`). It doesn't need to know how to construct complex FHIR queries.
+3.  **Abstraction:** The backend handles the complex work of talking to one or more other systems (like the LHSC and SJHC FHIR servers), allowing the frontend code to remain simple and focused on the user experience.
 
-### `npm run build`
+The diagram below shows how this frontend fits into the overall system:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```mermaid
+graph TD;
+    A[React Frontend (This Project)] -->|Simple REST API Calls| B[BackendFHIR Service];
+    B -->|FHIR API Calls| C[Downstream Systems <br/> (e.g., FHIR Servers)];
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    style A fill:#d5e8d4,stroke:#82b366,stroke-width:2px
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 🚀 Core Technologies
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* **Framework**: React
+* **Language**: JavaScript
+* **Styling**: Material-UI (MUI) for professional, pre-built components.
+* **API Communication**: Axios for clear and simple HTTP requests.
+* **Package Manager**: npm
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🛠️ Local Setup & Running
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Prerequisites
 
-## Learn More
+1.  **Node.js and npm** installed (preferably a recent LTS version).
+2.  The `BackendFHIR` service must be running locally, as this frontend depends on it.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Running the Application
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1.  Clone this repository to your local machine.
+2.  Navigate to the project's root directory in a terminal.
+3.  Install the necessary packages:
+    ```bash
+    npm install
+    ```
+4.  Start the development server:
+    ```bash
+    npm start
+    ```
+5.  The application will automatically open in your web browser, usually at `http://localhost:3000`.
 
-### Code Splitting
+The development server features "Hot Reloading," meaning that when you save a change in a file, the web page will automatically update without needing a manual refresh.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
